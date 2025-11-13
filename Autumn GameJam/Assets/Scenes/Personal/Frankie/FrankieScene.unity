@@ -705,6 +705,10 @@ PrefabInstance:
       propertyPath: whatIsEnemy.m_Bits
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 5826582104034262072, guid: 2966edb5148a2d44dae108b654e7f1fe, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.676
+      objectReference: {fileID: 0}
     - target: {fileID: 5874937239812068412, guid: 2966edb5148a2d44dae108b654e7f1fe, type: 3}
       propertyPath: m_Name
       value: Gun

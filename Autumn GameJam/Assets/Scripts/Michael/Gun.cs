@@ -4,13 +4,6 @@ using TMPro;
 
 public class Gun : MonoBehaviour
 {
-    //Emeny
-    //public EnemyScript enemyScript;
-
-
-
-
-
     //Gun stats
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
@@ -32,8 +25,8 @@ public class Gun : MonoBehaviour
 
     //Graphics
     public GameObject muzzleFlash, bulletHoleGraphic;
-    //public CamShake camShake;
-    //public float camShakeMagnitude, camShakeDuration;
+    public CameraShake camShake;
+    public float camShakeMagnitude, camShakeDuration;
     //public TextMeshProUGUI text;
 
 
@@ -50,6 +43,7 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         MyInput();
+        
 
 
         //SetText
@@ -65,7 +59,8 @@ public class Gun : MonoBehaviour
 
 
         //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0){
+        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        {
             bulletsShot = bulletsPerTap;
             Shoot();
         }
@@ -106,11 +101,13 @@ public class Gun : MonoBehaviour
 
         //ShakeCamera
         //camShake.Shake(camShakeDuration, camShakeMagnitude);
+        StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
 
 
         //Graphics
-        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 90, 0));
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
 
         bulletsLeft--;
