@@ -36,12 +36,9 @@ public class Gun : MonoBehaviour
     //public float camShakeMagnitude, camShakeDuration;
     //public TextMeshProUGUI text;
 
-    // Enemy Reference
-    //public EnemyTest enemytest;
 
     private void Start()
     {
-        //enemyScript = GetComponent<EnemyScript>();
     }
 
 
@@ -96,7 +93,7 @@ public class Gun : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Hit Enemy");
-                //TakeDamage(50);
+
 
             }
 
