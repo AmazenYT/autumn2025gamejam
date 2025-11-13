@@ -25,12 +25,14 @@ public class Gun : MonoBehaviour
 
     //Graphics
     public GameObject muzzleFlash, bulletHoleGraphic;
-    //public CamShake camShake;
-    //public float camShakeMagnitude, camShakeDuration;
+    public CameraShake camShake;
+    public float camShakeMagnitude, camShakeDuration;
     //public TextMeshProUGUI text;
 
-    // Enemy Reference
-    //public EnemyTest enemytest;
+
+    private void Start()
+    {
+    }
 
 
     private void Awake()
@@ -41,6 +43,7 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         MyInput();
+        
 
 
         //SetText
@@ -56,7 +59,8 @@ public class Gun : MonoBehaviour
 
 
         //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0){
+        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        {
             bulletsShot = bulletsPerTap;
             Shoot();
         }
@@ -84,19 +88,26 @@ public class Gun : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Hit Enemy");
-                //enemytest.enemyHealth -= damage;
 
+
+            }
+
+            if(rayHit.collider.TryGetComponent<EnemyScript>(out EnemyScript enemyComponent))
+            {
+                enemyComponent.TakeDamage(damage);
             }
         }
 
 
         //ShakeCamera
         //camShake.Shake(camShakeDuration, camShakeMagnitude);
+        StartCoroutine(camShake.Shake(camShakeDuration, camShakeMagnitude));
 
 
         //Graphics
-        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 90, 0));
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
+        //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
 
 
         bulletsLeft--;
@@ -123,5 +134,6 @@ public class Gun : MonoBehaviour
         bulletsLeft = magazineSize;
         reloading = false;
     }
+
 }
 
