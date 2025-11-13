@@ -4,6 +4,13 @@ using TMPro;
 
 public class Gun : MonoBehaviour
 {
+    //Emeny
+    //public EnemyScript enemyScript;
+
+
+
+
+
     //Gun stats
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
@@ -31,6 +38,11 @@ public class Gun : MonoBehaviour
 
     // Enemy Reference
     //public EnemyTest enemytest;
+
+    private void Start()
+    {
+        //enemyScript = GetComponent<EnemyScript>();
+    }
 
 
     private void Awake()
@@ -84,8 +96,13 @@ public class Gun : MonoBehaviour
             if (rayHit.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Hit Enemy");
-                //enemytest.enemyHealth -= damage;
+                //TakeDamage(50);
 
+            }
+
+            if(rayHit.collider.TryGetComponent<EnemyScript>(out EnemyScript enemyComponent))
+            {
+                enemyComponent.TakeDamage(damage);
             }
         }
 
@@ -123,5 +140,6 @@ public class Gun : MonoBehaviour
         bulletsLeft = magazineSize;
         reloading = false;
     }
+
 }
 
