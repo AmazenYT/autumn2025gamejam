@@ -26,6 +26,8 @@ public class EnemyScript : MonoBehaviour
     public bool playerInSightRange, playerInAttackRange;
 
     public EnemyKillManager killManager;
+    
+    public GameObject alternateModel;
 
     private void Awake()
     {
@@ -114,8 +116,63 @@ public class EnemyScript : MonoBehaviour
         {
             killManager.AddKill();
         }
-       
+        else
+        {
+            var parentKillManager = GetComponentInParent<EnemyKillManager>();
+            if (parentKillManager != null)
+                parentKillManager.AddKill();
+        }
 
+        // Activate alternate model if assigned (keeps this GameObject alive so child can remain),
+        // otherwise destroy the GameObject as before.
+        ActivateAlternateModel();
+    }
+
+    /// <summary>
+    /// Enable the assigned alternate model (typically a disabled child) when this enemy dies.
+    /// This disables the enemy's renderers/colliders/agent and this script so the alternate model
+    /// can remain visible in the scene. If no alternate model is assigned, the GameObject is destroyed.
+    /// </summary>
+    public void ActivateAlternateModel()
+    {
+        if (alternateModel != null)
+        {
+            // enable the alternate model (usually a child object)
+            alternateModel.SetActive(true);
+
+            // disable renderers that are not part of the alternate model
+            var renderers = GetComponentsInChildren<Renderer>(true);
+            foreach (var r in renderers)
+            {
+                if (r == null) continue;
+                if (alternateModel != null && r.transform.IsChildOf(alternateModel.transform))
+                    continue;
+                r.enabled = false;
+            }
+
+            // disable colliders that are not part of the alternate model
+            var colliders = GetComponentsInChildren<Collider>(true);
+            foreach (var c in colliders)
+            {
+                if (c == null) continue;
+                if (alternateModel != null && c.transform.IsChildOf(alternateModel.transform))
+                    continue;
+                c.enabled = false;
+            }
+
+            // disable navmesh agent and make rigidbody kinematic if present
+            if (agent != null) agent.enabled = false;
+            var rb = GetComponent<Rigidbody>();
+            if (rb != null) rb.isKinematic = true;
+
+            // disable this script so AI logic stops
+            enabled = false;
+
+            // keep the GameObject alive so the alternate child remains in scene
+            return;
+        }
+
+        // fallback: no alternate assigned, destroy the GameObject
         Destroy(gameObject);
     }
 
