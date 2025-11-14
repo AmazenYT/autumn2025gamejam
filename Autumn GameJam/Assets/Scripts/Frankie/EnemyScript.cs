@@ -25,6 +25,8 @@ public class EnemyScript : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public EnemyKillManager killManager;
+
     private void Awake()
     {
         player = GameObject.Find("PlayerObj").transform;
@@ -107,8 +109,14 @@ public class EnemyScript : MonoBehaviour
 
     public void DestroyEnemy()
     {
+        // Notify the assigned kill manager if set, otherwise fall back to a parent manager
+        if (killManager != null)
+        {
+            killManager.AddKill();
+        }
+       
+
         Destroy(gameObject);
-        //FindFirstObjectByType<EnemyKillManager>().AddKill();
     }
 
 }
