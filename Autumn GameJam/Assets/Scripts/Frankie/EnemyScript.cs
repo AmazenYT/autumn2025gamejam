@@ -108,6 +108,7 @@ public class EnemyScript : MonoBehaviour
     public void DestroyEnemy()
     {
         Destroy(gameObject);
+        FindFirstObjectByType<EnemyKillManager>().AddKill();
     }
 
 }
