@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public float playerHealth = 100;
-
+    public GameOverScreen GameOverScreen;
+    public EnemyKillManager enemyKillManager;
     public void TakeDamagePlayer(float damage)
     {
         playerHealth -= damage;
@@ -14,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
     public void KillPlayer()
     {
         Debug.Log("Player Dead");
-        Destroy(gameObject);
+        GameOverScreen.Setup(enemyKillManager.currentKills);
+        gameObject.SetActive(false);
     }
 }
