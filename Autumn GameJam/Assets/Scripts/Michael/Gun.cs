@@ -27,7 +27,7 @@ public class Gun : MonoBehaviour
     public GameObject muzzleFlash, bulletHoleGraphic;
     public CameraShake camShake;
     public float camShakeMagnitude, camShakeDuration;
-    //public TextMeshProUGUI text;
+    public TextMeshProUGUI text;
 
 
     private void Start()
@@ -47,7 +47,7 @@ public class Gun : MonoBehaviour
 
 
         //SetText
-        //text.SetText(bulletsLeft + " / " + magazineSize);
+        text.SetText(bulletsLeft + " / " + magazineSize);
     }
     private void MyInput()
     {
@@ -107,9 +107,7 @@ public class Gun : MonoBehaviour
         //Graphics
         Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
         Instantiate(bulletHoleGraphic, rayHit.point, Quaternion.Euler(0, 180, 0));
-        //Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-
-
+        
         bulletsLeft--;
         bulletsShot--;
 
