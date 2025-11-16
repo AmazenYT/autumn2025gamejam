@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.TextCore.LowLevel;
 
 public class SwordSwing : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class SwordSwing : MonoBehaviour
                 Debug.Log("Enemy hit with sword");
                 enemy.GetComponent<EnemyScript>().TakeDamage(damage);
             }
-        
+
+        Debug.Log("huh???");
     }
 }
