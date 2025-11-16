@@ -1,27 +1,33 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyCountDoor : MonoBehaviour
 {
-    public int killsRequired = 5;
-    public EnemyKillManager killManager;
+    [Header("Enemy To Kill Before Door Unlocks")]
+    public GameObject requiredEnemy;   // drag the specific enemy here
+
+    [Header("Player Settings")]
+    public Transform player;           
     public float playerDistanceToUse = 3f;
-    public Transform player;  // drag your player here!
+
+    [Header("Victory Scene")]
+    public string victorySceneName = "VictoryScreen";
 
     void Update()
     {
-        // Only allow opening if player is close enough
+        // If the enemy still exists, door stays locked
+        if (requiredEnemy != null) return;
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance <= playerDistanceToUse && Input.GetKeyDown(KeyCode.E))
         {
-            if (killManager.currentKills >= killsRequired)
-            {
-                GetComponent<Animator>().SetTrigger("OpenDoor");
-            }
-            else
-            {
-                Debug.Log("Door locked. Kill more enemies.");
-            }
+            LoadVictoryScene();
         }
+    }
+
+    void LoadVictoryScene()
+    {
+        SceneManager.LoadScene("VictoryScene");
     }
 }

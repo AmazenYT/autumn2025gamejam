@@ -112,24 +112,23 @@ public class EnemyScript : MonoBehaviour
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
     }
 
-    public void DestroyEnemy()
-    {
-        // Notify the assigned kill manager if set, otherwise fall back to a parent manager
-        if (killManager != null)
-        {
-            killManager.AddKill();
-        }
-        else
-        {
-            var parentKillManager = GetComponentInParent<EnemyKillManager>();
-            if (parentKillManager != null)
-                parentKillManager.AddKill();
-        }
+ public void DestroyEnemy()
+{
+    // Add kill to kill manager
+    if (killManager != null)
+        killManager.AddKill();
 
-        // Activate alternate model if assigned (keeps this GameObject alive so child can remain),
-        // otherwise destroy the GameObject as before.
-        ActivateAlternateModel();
+    // Spawn friendly model at exact death position/rotation
+    if (alternateModel != null)
+    {
+        Instantiate(alternateModel, transform.position, transform.rotation);
     }
+
+    // Destroy the enemy so the door script sees 'null'
+    Destroy(gameObject);
+}
+
+
 
     /// <summary>
     /// Enable the assigned alternate model (typically a disabled child) when this enemy dies.
