@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TitleScreen.unity
     guid: 86b6fec8ecd41a549acef4fe0cfe934b
+  - enabled: 1
+    path: Assets/Scenes/Personal/Frankie/FrankieScene.unity
+    guid: 584b0081284cdc347a44caa8438950d4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
